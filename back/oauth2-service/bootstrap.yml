@@ -1,0 +1,105 @@
+spring:
+  application:
+    name: oauth2-server
+  cloud:
+    nacos:
+      server-addr: 47.115.6.4
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 1
+    # Redis服务器地址
+    host: 127.0.0.1
+    # Redis服务器连接密码（默认为空）
+    password: ''
+    # Redis服务器连接端口
+    port: 6379
+    # 连接超时时间（毫秒）
+    timeout: 5000
+    lettuce:
+      # 连接池配置
+      pool:
+        # 连接池中的最小空闲连接，默认 0
+        min-idle: 0
+        # 连接池中的最大空闲连接，默认 8
+        max-idle: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制），默认 -1ms
+        max-wait: -1ms
+        # 连接池最大连接数（使用负值表示没有限制），默认 8
+        max-active: 8
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/oauth2?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 600000
+      maximum-pool-size: 10
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+#  security:
+#    user:
+#      # 账号
+#      name: root
+#      # 密码
+#      password: 123456
+dubbo:
+  scan:
+    base-packages: cn.lqcnb.homemall.service.oauth2.controller, cn.lqcnb.homemall.service.oauth2.service, cn.lqcnb.homemall.api.feign
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://47.115.6.4:8848
+feign:
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+  sentinel:
+    enabled: true
+
+
+
+server:
+  port: 8088
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# MyBatis配置
+#mybatis:
+#  mapper-locations: classpath:mapper/*Mapper.xml
+
+# 分页插件
+#pagehelper:
+#  offset-as-page-num: true
+#  reasonable: true
+
+#日志配置
+logging:
+  file:
+    name: logs/oauth2-service.log
+  level:
+    root: info
+
+provider:
+  oauth2:
+    grant_type: password
+    client_id: client
+    client_secret: secret
+

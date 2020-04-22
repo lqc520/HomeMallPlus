@@ -1,0 +1,4 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 47.115.6.4

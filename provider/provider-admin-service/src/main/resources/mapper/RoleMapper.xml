@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lqcnb.homemall.service.admin.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="cn.lqcnb.homemall.api.admin.dto.Role">
+    <!--@mbg.generated generated on Thu Mar 19 16:54:32 CST 2020.-->
+    <!--@Table sys_role-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="enname" jdbcType="VARCHAR" property="enname" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Thu Mar 19 16:54:32 CST 2020.-->
+    id, parent_id, `name`, enname, description, created, updated
+  </sql>
+    <select id="getRole" resultMap="BaseResultMap">
+      SELECT
+            r.*
+            FROM
+            sys_role r,
+            sys_user u,
+            sys_permission p,
+            sys_role_permission rp,
+            sys_user_role ur
+            WHERE
+            u.id = ur.user_id
+            AND r.id = rp.id
+            AND rp.permission_id = p.id
+            AND r.id = ur.role_id
+            AND u.id = #{uId,jdbcType=INTEGER}
+
+    </select>
+</mapper>

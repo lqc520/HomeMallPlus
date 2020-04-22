@@ -1,0 +1,110 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>layuiAdmin 管理员 iframe 框</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+</head>
+<body>
+
+  <div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+      <label class="layui-form-label">手机</label>
+      <div class="layui-input-inline">
+        <input type="text" name="mobile" id="mobile" lay-verify="phone" placeholder="请输入号码" class="layui-input">
+        <!--角色id-->
+        <input type="hidden"  id="roleId">
+        <!--用户id-->
+        <input type="hidden" name="id" id="uid">
+      </div>
+    </div>
+<!--    <div class="layui-form-item">-->
+<!--      <label class="layui-form-label">密码</label>-->
+<!--      <div class="layui-input-inline">-->
+<!--        <input type="password" name="password" lay-verify="pass" lay-verType="tips" autocomplete="off" id="LAY_password" class="layui-input">-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="layui-form-item">-->
+<!--      <label class="layui-form-label">确认密码</label>-->
+<!--      <div class="layui-input-inline">-->
+<!--        <input type="password" name="repassword" lay-verify="repass" lay-verType="tips" autocomplete="off" class="layui-input">-->
+<!--      </div>-->
+<!--    </div>-->
+    <div class="layui-form-item">
+      <label class="layui-form-label">昵称</label>
+      <div class="layui-input-inline">
+        <input type="text" name="nickname" id="nickname" lay-verify="text" placeholder="请输入昵称" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">邮箱</label>
+      <div class="layui-input-inline">
+        <input type="text" name="email" lay-verify="email" id="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">角色</label>
+      <div class="layui-input-block">
+        <select name="role" id="role"></select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">审核状态</label>
+      <div class="layui-input-inline">
+        <input type="checkbox" lay-filter="switch" name="state" id="state" value="0"  lay-skin="switch" lay-text="通过|待审核">
+      </div>
+    </div>
+    <div class="layui-form-item layui-hide">
+      <input type="button" lay-submit lay-filter="LAY-user-back-submit" id="LAY-user-back-submit" value="确认">
+    </div>
+  </div>
+
+  <script src="../../../layuiadmin/layui/layui.js"></script>  
+  <script>
+  layui.config({
+    base: '../../../layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'form'], function(){
+    var $ = layui.$
+    ,form = layui.form ;
+
+    //获取角色信息
+    layui.admin.req({
+      url: layui.setter.adminGateWayUrl + "role/getList"
+      ,type:'get'
+      ,success:function (data) {
+        let roleStr='<option value="-1">请选择</option>'+"\n";
+        for(let v of data){
+          roleStr += `<option value="${v.id}">${v.name}</option>` +"\n";
+        }
+        $('#role').append(roleStr);
+        $('#role').val($('#roleId').val());
+       form.render();
+      }
+    });
+    //上下架
+    // form.on('switch', function(data) {
+    //   console.log(data.elem.checked); //开关是否开启，true或者false
+    //   console.log(data.value); //开关value值，也可以通过data.elem.value得到
+    //   //上架状态0   true      <!--  商品状态 0上架   1下架-->
+    //   if (data.elem.checked == true) {
+    //     data.value=1;
+    //     //下架状态1 false
+    //   } else {
+    //     data.value=0;
+    //   }
+    //   console.log(data.value);
+    // });
+
+
+
+  })
+  </script>
+</body>
+</html>

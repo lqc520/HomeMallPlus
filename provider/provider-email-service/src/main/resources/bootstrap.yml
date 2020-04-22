@@ -1,0 +1,47 @@
+spring:
+  application:
+    # 服务名
+    name: email-service-provider
+  cloud:
+    nacos:
+      #服务注册发现中心
+      server-addr: 47.115.6.4
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        # RocketMQ 相关配置
+    stream:
+      rocketmq:
+        binder:
+          name-server: 47.115.34.17:9876
+      bindings:
+        email-service-topic: {destination: email-service-topic, content-type: application/json}
+
+
+  #邮件配置
+  mail:
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    password: drrnpxrdhuuphadd
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    username: 1402548358@qq.com
+
+
+
+
+server:
+  # 服务端口
+  port: 8070
+
+management:
+  # 端点检查（健康检查）
+  endpoints:
+    web:
+      exposure:
+        include: "*"

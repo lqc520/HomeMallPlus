@@ -1,0 +1,31 @@
+
+server:
+  # 服务端口
+  port: 8090
+
+spring:
+  application:
+    # 服务名
+    name: member-service-consumer
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册中心
+        server-addr: 192.168.1.13:8848
+    # 熔断限流
+    sentinel:
+      transport:
+        dashboard: 192.168.1.13:8080
+
+# 开启 Feign 对 Sentinel 的支持
+feign:
+  sentinel:
+    enabled: true
+
+management:
+  # 端点检查（健康检查）
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

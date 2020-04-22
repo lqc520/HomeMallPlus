@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>家居商城-个人中心</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="/plugin/layui/css/layui.css">
+  <link rel="stylesheet" href="/common/css/index.css">
+</head>
+<body class="user">
+
+<!--jquery-->
+<script src="/plugin/jquery/jquery.js"></script>
+<!--页面顶部-->
+<div class="house-header">
+  <script>
+    $(function(){$('.house-header').load('./header.html');});
+  </script>
+</div>
+
+<div class="layui-container userpublic house-userPer" >
+  <div class="layui-row layui-col-space20 ">
+    <p class="layui-hide-xs title">首页 &gt; <span>个人中心</span></p>
+
+    <div class="layui-col-sm2 sidebar">
+      <script>
+        $(function(){$('.sidebar').load('./usersidebar.html');});
+      </script>
+    </div>
+    <div id="main">
+    <div class="layui-col-sm10" >
+      <div class="user-person">
+        <div class="person">
+          <img :src="user.avatar">
+          <div class="name">
+            <p>{{user.nickname}}</p>
+            <span><i>VIP100</i></span>
+          </div>
+        </div>
+        <ul>
+          <li>优惠券<span>0张</span></li>
+          <li>礼品卡<span>0张</span></li>
+          <li>积分<span>10000</span></li>
+          <li>待发货<span>12个</span></li>
+          <li>待收货<span>2个</span></li>
+          <li>待评价<span>2个</span></li>
+        </ul>
+      </div> 
+    </div>
+    <div class="layui-col-sm10" >
+<!--      -->
+      <div class="layui-tab layui-tab-brief" id="changeState">
+        <ul class="layui-tab-title">
+          <li class="layui-this" @click="changeById('-1')">全部订单</li>
+          <li @click="changeById('0')">等待支付</li>
+          <li @click="changeById('1')">等待发货</li>
+          <li @click="changeById('3')">等待评价</li>
+          <li @click="changeById('4')">交易完成</li>
+        </ul>
+        <div class="layui-tab-content" >
+          <div class="layui-tab-item layui-show">
+            <table id="house-user-order"  lay-filter="house-user-order"></table>
+          </div>
+        </div>
+      </div>      
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--jquery-->
+<script src="/plugin/jquery/jquery.js"></script>
+<!--页面底部-->
+<div class="house-footer">
+  <script>
+    $(function(){$('.house-footer').load('./footer.html');});
+  </script>
+</div>
+
+
+<script type="text/html" id="orderTpl">
+  <div style="text-align: left; display: inline-block; vertical-align: middle;">
+    <p>订单号：{{d.order_number}}</p>
+
+    {{# if(d.payment_number==null || d.payment_number==''){ }}
+    <p>支付单号：未支付</p>
+    {{# } else { }}
+    <p>支付单号：{{d.payment_number}}</p>
+    {{# } }}
+
+    <p id="time">交易时间：{{dateFormat(d.create_time)}}</p>
+  </div>
+</script>
+
+<!--订单商品图片-->
+<script type="text/html" id="imgTpl">
+  <img src="{{d.goods_img}}" style="width: 100px;height: 100px">
+</script>
+
+订单价格
+<!---->
+<script type="text/html" id="priceTpl">
+  <div style="display: inline-block; vertical-align: middle;">
+    <p>￥{{d.goods_price*d.quantity}}</p>
+    <p>免运费</p>
+  </div>
+</script>
+
+<!--订单状态-->
+<script type="text/html" id="stateTpl">
+  {{#  if(d.order_status == 3){ }}
+  <span style="color: #99220e;">待评价</span>
+  {{#  } else if(d.order_status == 2){ }}
+  <span style="color: #ee715f;">待收货</span>
+  {{#  } else if(d.order_status == 1){ }}
+  <span style="color: #e09b4e;">待发货</span>
+  {{#  } else if(d.order_status == 0){ }}
+  <span style="color: #73c292;">待支付</span>
+  {{#  } else { }}
+  <span style="color: #e0434e;">交易完成</span>
+  {{#  } }}
+</script>
+
+<script type="text/html" id="handleTpl">
+  <div style="display: inline-block; vertical-align: middle;">
+    {{# if(d.payment_number==null || d.payment_number==''){ }}
+    <a class="handel" lay-event="evaluate" style="color: #e39d55; cursor: pointer; display: block;">立即支付</a>
+    <a class="handel" lay-event="delete" style="color: #e39d55; cursor: pointer; display: block;">删除订单</a>
+    {{# } else { }}
+    <a class="handel" lay-event="check" style="color: #e39d55; cursor: pointer; display: block;">查看物流</a>
+    <a class="handel" lay-event="comment" style="color: #e39d55; cursor: pointer; display: block;">确认收货</a>
+    <a class="handel" lay-event="evaluate" style="color: #e39d55; cursor: pointer; display: block;">评价商品</a>
+    {{# } }}
+  </div>
+</script>
+
+<div id="take">
+  <div class="layui-form-item">
+    <label class="layui-form-label">评分</label>
+    <div class="layui-input-inline">
+      <div id="rate"> </div>
+    </div>
+  </div>
+
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">评价</label>
+    <div class="layui-input-inline">
+      <textarea name="remarks" id="remarks" placeholder="请输入内容" class="layui-textarea"></textarea>
+    </div>
+  </div>
+<!--  <div class="layui-form-item">-->
+<!--    <div class="layui-input-block">-->
+<!--      <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认评价</button>-->
+<!--      <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>-->
+<!--    </div>-->
+<!--  </div>-->
+</div>
+
+<!--vue-->
+<script src="/plugin/vue/vue.js"></script>
+<!--vue-cookies-->
+<script src="/plugin/vue-cookies/vue-cookies.js"></script>
+<!--axios-->
+<script src="/plugin/axios/axios.js"></script>
+<!--layui-->
+<script src="/plugin/layui/layui.js"></script>
+<!--config--->
+<script src="/common/js/config.js"></script>
+<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+<!--[if lt IE 9]>
+  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script>
+  // var table;
+  layui.config({
+    base: '/common/js/' 
+  }).use('house');
+
+
+  new Vue({
+    el:'#main',
+    data(){
+      return{
+        token:this.$cookies.get("token"),
+        getData:'',
+        user:[]//用户信息
+
+      }
+    },
+    methods:{
+      //个人中心——订单
+      changeById:function (id) {
+        // table.reload('house-user-order');
+        this.getData(id);
+        table.reload('house-user-order');
+      },
+      developed:function () {
+        layer.msg("待开发");
+      }
+    }
+    ,
+    mounted(){
+      axios.defaults.baseURL = base_url;
+      axios.interceptors.request.use(config => {
+                config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                if (this.token) {
+                  config.headers.common['token'] =this.token
+                }
+                return config
+              },
+              err => {return Promise.reject(err)}
+      );
+      axios.get('member/get').then(
+              res=>{
+                this.user=res.data.data
+              }
+      );
+      //获取不同分类的订单数据
+      this.getData=(id)=>{
+       layui.use('table',()=>{
+         table=layui.table;
+         var curTable=table.render({
+            elem: "#house-user-order"
+           ,url:  base_url+"order/getOrder/"+id
+           ,headers: {token:this.token}
+           ,page: false
+           ,skin: 'line'
+           ,cols: [[
+             {title:'订单信息', align:'center', templet: '#orderTpl',width:350}
+             ,{title:'订购商品',field:'goods_img',  templet: '#imgTpl', align:'center'}
+             ,{title:'件数',field:'quantity',  align:'center', width:80}
+             ,{title:'价格', align:'center', templet: '#priceTpl', width:100}
+             ,{title:'订单状态', align:'center', templet: '#stateTpl', width:100}
+             ,{title:'订单操作', align:'center', templet: '#handleTpl', width:120}
+           ]]
+         });
+        // curTable.reload();
+       });
+
+     };
+      this.getData('-1');
+    }
+  });
+
+  function dateFormat(time){
+    var date=new Date(time);
+    var year=date.getFullYear();
+    /* 在日期格式中，月份是从0开始的，因此要加0
+     * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+     * */
+    var month= date.getMonth()+1<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
+    var day=date.getDate()<10 ? "0"+date.getDate() : date.getDate();
+    var hours=date.getHours()<10 ? "0"+date.getHours() : date.getHours();
+    var minutes=date.getMinutes()<10 ? "0"+date.getMinutes() : date.getMinutes();
+    var seconds=date.getSeconds()<10 ? "0"+date.getSeconds() : date.getSeconds();
+    // 拼接
+    return year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds;
+  }
+  layui.use('rate', function(){
+
+  });
+</script>
+
+</body>
+</html>

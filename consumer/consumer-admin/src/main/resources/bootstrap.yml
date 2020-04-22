@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: consumer-admin
+  cloud:
+    nacos:
+      server-addr: 47.115.6.4
+
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+
+#  security:
+#    user:
+#      # 账号
+#      name: root
+#      # 密码
+#      password: 123456
+dubbo:
+  scan:
+    base-packages: cn.lqcnb.homemall.consumer.admin.controller
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://47.115.6.4:8848
+
+feign:
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+  sentinel:
+    enabled: true
+
+server:
+  port: 8089
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+

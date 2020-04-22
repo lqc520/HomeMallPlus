@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lqcnb.homemall.service.admin.mapper.AdminMapper">
+  <resultMap id="BaseResultMap" type="cn.lqcnb.homemall.api.admin.dto.Admin">
+    <!--@mbg.generated generated on Sun Mar 22 02:05:09 CST 2020.-->
+    <!--@Table sys_user-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Sun Mar 22 02:05:09 CST 2020.-->
+    id, mobile, `password`, email, `state`, avatar, nickname, is_delete, create_time, 
+    update_time
+  </sql>
+</mapper>

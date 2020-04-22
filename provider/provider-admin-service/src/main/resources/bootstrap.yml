@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: provider-admin-service
+  cloud:
+    nacos:
+      server-addr: 47.115.6.4
+    sentinel:
+      transport:
+        dashboard: localhost:8080

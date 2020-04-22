@@ -1,0 +1,41 @@
+
+server:
+  # 服务端口
+  port: 8060
+
+spring:
+  application:
+    # 服务名
+    name: email-service-consumer
+  cloud:
+    #服务注册与发现
+    nacos:
+        server-addr: 47.115.6.4
+    # 熔断限流
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+    stream:
+      rocketmq:
+        binder:
+          name-server: 47.115.34.17:9876
+        bindings:
+          email-service-topic: {consumer.orderly: true}
+      bindings:
+        # consumer.maxAttempts
+        # 消息最大可以被尝试消费的次数，包含第一次投递
+        # 设为 1，表示不重试，注意该值必须大于 0
+        email-service-topic: {destination: email-service-topic, content-type: text/plain, group: email-service-topic, consumer.maxAttempts: 1}
+
+# 开启 Feign 对 Sentinel 的支持
+feign:
+  sentinel:
+    enabled: true
+
+management:
+  # 端点检查（健康检查）
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

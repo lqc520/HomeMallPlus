@@ -1,0 +1,43 @@
+server:
+  port: 9977
+spring:
+  application:
+    name: provider-cache-service
+  cloud:
+    nacos:
+      server-addr: os1.lqcnb.cn
+
+    #  redis配置
+  redis:
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+    sentinel:
+      master: mymaster
+      nodes: os1.lqcnb.cn:26379, 192.168.10.151:26380, os1.lqcnb.cn:26381
+
+
+
+#日志配置
+logging:
+  file:
+    name: logs/cache-service.log
+  level:
+    root: info
+
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+
+---

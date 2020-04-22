@@ -1,0 +1,12 @@
+spring:
+  application:
+    # 应用名称
+    name: gateway
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+        server-addr: 47.115.6.4
+        config:
+          file-extension: yaml
+

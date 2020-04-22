@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lqcnb.mall.api.mapper.WebSiteMapper">
+  <resultMap id="BaseResultMap" type="cn.lqcnb.mall.api.entity.WebSite">
+    <!--@mbg.generated generated on Thu Mar 12 16:12:23 CST 2020.-->
+    <!--@Table mall_website-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sitename" jdbcType="VARCHAR" property="sitename" />
+    <result column="domain" jdbcType="VARCHAR" property="domain" />
+    <result column="cache" jdbcType="VARCHAR" property="cache" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="keywords" jdbcType="VARCHAR" property="keywords" />
+    <result column="descript" jdbcType="VARCHAR" property="descript" />
+    <result column="copyright" jdbcType="VARCHAR" property="copyright" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Thu Mar 12 16:12:23 CST 2020.-->
+    id, sitename, `domain`, `cache`, title, keywords, descript, copyright
+  </sql>
+</mapper>

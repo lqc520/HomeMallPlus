@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: service-api
+#  profiles:
+#    active: test
+  cloud:
+    nacos:
+      server-addr: 47.115.6.4
+      config:
+        file-extension: yaml
+
+
+

@@ -1,0 +1,35 @@
+<div>
+    <ul class="user-list" id="main">
+
+     <li v-for=" (v,i) in listData "  ><a :href="v.url">{{v.name}}</a></li>
+
+<!--        <li :class="{active:actives==1}" @click="active(1)"><a href="userinfo.html">个人资料</a></li>-->
+<!--        <li :class="{active:actives==2}" @click="active(2)"><a href="javascript:void (0)" @click="developed()">消息中心</a></li>-->
+<!--        <li :class="{active:actives==3}" @click="active(3)"><a href="useradd.html">地址管理</a></li>-->
+<!--        <li :class="{active:actives==4}" @click="active(4)"><a href="usercol.html">我的收藏</a></li>-->
+<!--        <li :class="{active:actives==5}" @click="active(5)"><a href="javascript:void (0)" @click="developed()">优惠券</a></li>-->
+<!--        <li :class="{active:actives==6}" @click="active(6)"><a href="javascript:void (0)" @click="developed()">服务中心</a></li>-->
+    </ul>
+</div>
+<script>
+    new Vue({
+        el:'#main',
+        data(){
+            return{
+                actives:'',
+                listData:'',
+                // activeName: '个人中心'
+            //       // list: [{'name':'个人中心','url':'user.html'},{'name':'个人资料','url':'userinfo.html'},'消息中心','地址管理','我的收藏','优惠券','服务中心'],
+            }
+        },created(){
+            axios.get(base_url+"userSide/getList").then( res => { this.listData = res.data;});
+        },methods:{
+            developed() {
+                layer.msg("开发中");
+            },
+            active(index){
+                this.actives = index;
+            }
+        }
+    })
+</script>

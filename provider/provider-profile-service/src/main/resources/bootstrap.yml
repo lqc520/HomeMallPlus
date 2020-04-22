@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: provider-profile-service
+  cloud:
+    nacos:
+        server-addr: 47.115.6.4
+        config:
+          file-extension: yaml

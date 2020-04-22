@@ -1,0 +1,45 @@
+
+spring:
+  application:
+    name: provider-admin-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oauth2?useUnicode=true&characterEncoding=utf-8&serverTimezone=Hongkong&useSSL=false
+    username: root
+    password: 123456
+  cloud:
+    nacos:
+      server-addr: 47.115.6.4
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+
+
+dubbo:
+  scan:
+    base-packages: cn.lqcnb.homemall.service.admin.service
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://47.115.6.4:8848
+
+#日志配置
+logging:
+  file:
+    name: logs/admin-service.log
+  level:
+    cn:
+      lqcnb:
+        homemall:
+          service:
+            admin:
+              mapper: debug
+    root: info
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: cn.lqcnb.homemall.api.admin.dto
+server:
+  port: 8890

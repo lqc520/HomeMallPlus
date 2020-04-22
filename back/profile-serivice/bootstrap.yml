@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: provider-profile-service
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  cloud:
+    nacos:
+        server-addr: 47.115.6.4
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+  redis:
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+    sentinel:
+      master: mymaster
+      nodes: os1.lqcnb.cn:26379, 192.168.10.151:26380, os1.lqcnb.cn:26381
+
+security:
+  oauth2:
+    client:
+      client-id: client
+      client-secret: secret
+      access-token-uri: http://localhost:8088/oauth/token
+      user-authorization-uri: http://localhost:8088/oauth/authorize
+    resource:
+      token-info-uri: http://localhost:8088/oauth/check_token
+dubbo:
+  scan:
+    base-packages: cn.lqcnb.homemall.service.profile.controller
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://47.115.6.4:8848
+server:
+  port: 9000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+#日志配置
+logging:
+  file:
+    name: logs/provider-profile-service.log
+  level:
+    root: info

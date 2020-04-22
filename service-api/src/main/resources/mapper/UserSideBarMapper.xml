@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lqcnb.mall.api.mapper.UserSideBarMapper">
+  <resultMap id="BaseResultMap" type="cn.lqcnb.mall.api.entity.UserSideBar">
+    <!--@mbg.generated generated on Thu Mar 05 12:37:11 CST 2020.-->
+    <!--@Table mall_user_side_bar-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Thu Mar 05 12:37:11 CST 2020.-->
+    id, `name`, url
+  </sql>
+</mapper>
