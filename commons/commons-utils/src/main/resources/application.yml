@@ -4,7 +4,7 @@ spring:
   mail:
     default-encoding: UTF-8
     host: smtp.qq.com
-    password: drrnpxrdhuuphadd
+    password: xxx
     properties:
       mail:
         smtp:
@@ -12,4 +12,4 @@ spring:
           starttls:
             enable: true
             required: true
-    username: 1402548358@qq.com
+    username: xxx@qq.com
